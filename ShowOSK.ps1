@@ -50,19 +50,18 @@
 
 #>
 
- # Determine where to do the logging 
- $tsenv = New-Object -COMObject Microsoft.SMS.TSEnvironment 
- $logPath = $tsenv.Value("LogPath") 
- $logFile = "$logPath\$($myInvocation.MyCommand).log"
+# Determine where to do the logging 
+$tsenv = New-Object -COMObject Microsoft.SMS.TSEnvironment 
+$logPath = $tsenv.Value("LogPath") 
+$logFile = "$logPath\$($myInvocation.MyCommand).log"
  
 # Start the logging 
- Start-Transcript $logFile
- Write-Output "Logging to $logFile"
+Start-Transcript $logFile
+Write-Output "Logging to $logFile"
 
 #Set Error Action to Silently Continue
 $ErrorActionPreference = "SilentlyContinue"
 
- 
 # Determine where to do the logging 
 $tsenv = New-Object -COMObject Microsoft.SMS.TSEnvironment 
 $logPath = $tsenv.Value("LogPath") 

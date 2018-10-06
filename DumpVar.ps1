@@ -1,36 +1,35 @@
+
 #########################################################################################################################
 #
 #   Author    : Jhivago
-#   FileName  :bld_vpn.ps1
+#   FileName  : DumpVars.ps1
 #   License   : GLP v3.0. See: https://www.gnu.org/licenses/gpl-3.0.en.html
 #   Version   : 1.0
-#   Revision  : R1 - 2018.08.14
-#   Created   : 2018.08.14
+#   Revision  : R1 - 2018.10.05
+#   Created   : 2018.10.05
 #
 #   Changes   : v1.0 R1 - Inital Version.
 #
-#   To do     : - Option to take .csv file input?
-#               - GUI input option?
 #
 #
 #########################################################################################################################
 
 <# 
  .Synopsis
-    Creates a global VPN connection.
+    Dumps Task sequence variables.
 
  .Description
-    Creates a global L2tp VPN connection. Tested with Unifi Security Gateway Pro 4.
-    The $VPNServer variable will hake either and IP address or FQDN.
+    Dumps Task sequence variables. Original source:
+    https://blogs.technet.microsoft.com/mniehaus/2010/04/26/dumping-task-sequence-variables/
 
     Requirements: 
         * PowerShell Version 5 or later.
 
  .Parameter NONE
-    Does not take any parameters.
+    There are no parameters.
 
  .Example
-    mk_vpnscpts.ps1
+    DumpVar.ps1
 
  .Link
     Licensed under GLP v3.0. See:
@@ -64,21 +63,16 @@ Write-Output "Logging to $logFile"
 #Set Error Action to Silently Continue
 $ErrorActionPreference = "SilentlyContinue"
 
-$VPNName = "MyVPN"
-$VPNServer = "myvpnserver.mydomain.com"
-$RemoteSubnet = "10.0.0.0/24"
-$DNS = "10.0.0.2"
-$DNSSuffix = "ad.mydomain.com"
-$Psk = "MyPSK!"
+# Determine where to do the logging
+$tsenv = New-Object -COMObject Microsoft.SMS.TSEnvironment
+$logPath = $tsenv.Value("_SMSTSLogPath")
+$logFile = "$logPath\$($myInvocation.MyCommand).log"
 
-# Remove any prevoius connections
-Remove-VpnConnection -Name "$VPNname" -AllUserConnection -Force 
-Remove-VpnConnection -Name "$VPNname" -Force 
+# Start the logging
+Start-Transcript $logFile
 
-# Create the VPN connection
-Add-VpnConnection -Name "$VPNname" -ServerAddress "$VPNServer" -TunnelType L2tp -EncryptionLevel Required -AuthenticationMethod MSChapv2 -SplitTunneling -L2tpPsk "$Psk" -Force -RememberCredential -DnsSuffix "$DNSSuffix" -PassThru -AllUserConnection
-Add-VpnConnectionRoute -ConnectionName "$VPNname" -DestinationPrefix "$RemoteSubnet" -PassThru -AllUserConnection
-start-sleep -seconds 30
+# Write all the variables and their values
+$tsenv.GetVariables() | % { Write-Host "$_ = $($tsenv.Value($_))" }
 
-# Stop logging 
-Stop-Transcript
+# Stop logging
+Stop-Transcript 
