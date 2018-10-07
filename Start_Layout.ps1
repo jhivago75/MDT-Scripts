@@ -63,21 +63,13 @@ Write-Output "Logging to $logFile"
 #Set Error Action to Silently Continue
 $ErrorActionPreference = "SilentlyContinue"
 
-# Set the location to the files
-$_Drive = $tsenv.Value("DEPLOYDRIVE")
-$XMLRoot = "$_Drive\Applications\_Scripts\xml"
-
-# Set the directories to look for
-$OfficeRoot = "$env:ProgramFiles (x86)\Microsoft Office\root"
-$QBRoot = "$env:ProgramFiles (x86)\Intuit"
-
 # Test if Office is installed
-if ((Test-Path -Path "$OfficeRoot") -and (Test-Path -Path "$QBRoot")) {
-    $NewLayoutFile = "$XMLRoot\Start_Layout_Office_QB.xml"
-} elseif ((Test-Path -Path "$OfficeRoot") -and !(Test-Path -Path "$QBRoot")) {
-    $NewLayoutFile = "$XMLRoot\Start_Layout_Office.xml"
+if ((Test-Path -Path "C:\Program Files (x86)\Microsoft Office\root") -and (Test-Path -Path "C:\Program Files (x86)\Intuit")) {
+    $NewLayoutFile = "Z:\Applications\_Scripts\Common\Start_Layout_Office_QB.xml"
+} elseif ((Test-Path -Path "C:\Program Files (x86)\Microsoft Office\root") -and !(Test-Path -Path "C:\Program Files (x86)\Intuit")) {
+    $NewLayoutFile = "Z:\Applications\_Scripts\Common\Start_Layout_Office.xml"
 } else {
-    $NewLayoutFile = "$XMLRoot\Start_Layout.xml"
+    $NewLayoutFile = "Z:\Applications\_Scripts\Common\Start_Layout.xml"
 }
 
 Write-Output "Writing $NewLayoutFile to $MyComputer"

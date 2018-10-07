@@ -18,7 +18,7 @@
 
 <# 
  .Synopsis
-    Enables or disables internet access.
+    AEnables or disables internet access.
 
  .Description
     Used to Block Internet Access to prevent Microsoft Store App Updates during a buid/capture sequence.
