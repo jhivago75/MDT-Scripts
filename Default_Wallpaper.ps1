@@ -63,6 +63,9 @@ Write-Output "Logging to $logFile"
 #Set Error Action to Silently Continue
 $ErrorActionPreference = "SilentlyContinue"
 
+# Set the location of the wallpaper we want to set as the default
+$PaperPath = "%SystemRoot%\web\wallpaper\Zydeco\zydeco.jpg"
+
 takeown /A /F %SystemRoot%\web\wallpaper\windows\img0.jpg
 
 takeown /A /F %SystemRoot%\web\4k\Wallpaper\Windows\*.*
@@ -71,7 +74,7 @@ icacls %SystemRoot%\web\wallpaper\windows\img0.jpg /grant "Administrators":F
 
 icacls %SystemRoot%\web\4k\Wallpaper\Windows\*.* /grant "Administrators":F
 
-copy /y %SystemRoot%\web\wallpaper\Zydeco\zydeco.jpg %SystemRoot%\web\wallpaper\windows\img0.jpg
+copy /y $PaperPath %SystemRoot%\web\wallpaper\windows\img0.jpg
 
 del /q %SystemRoot%\web\4k\Wallpaper\Windows\*.*
 
