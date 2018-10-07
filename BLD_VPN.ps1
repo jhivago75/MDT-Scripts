@@ -21,7 +21,8 @@
 
  .Description
     Creates a global L2tp VPN connection. Tested with Unifi Security Gateway Pro 4.
-    The $VPNServer variable will hake either and IP address or FQDN.
+    The $VPNServer variable will hake either and IP address or FQDN. This method allows
+    logging in to the VPN from th login screen.
 
     Requirements: 
         * PowerShell Version 5 or later.

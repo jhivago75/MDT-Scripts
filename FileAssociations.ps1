@@ -55,7 +55,7 @@
 $tsenv = New-Object -COMObject Microsoft.SMS.TSEnvironment 
 $logPath = $tsenv.Value("LogPath") 
 $logFile = "$logPath\$($myInvocation.MyCommand).log"
- 
+
 # Start the logging 
 Start-Transcript $logFile
 Write-Output "Logging to $logFile"
@@ -66,11 +66,15 @@ $ErrorActionPreference = "SilentlyContinue"
 # Get the computer name
 $MyComputer = $Env:COMPUTERNAME
 
+# Set the location to the files
+$_Drive = $tsenv.Value("DEPLOYDRIVE")
+$XMLRoot = "$_Drive\Applications\_Scripts\xml"
+
 # Test if Office is installed
 if (Test-Path -Path "C:\Program Files (x86)\Microsoft Office\root") {
-    $NewAssocFile = "Z:\Applications\_Scripts\xml\AppAssoc_Office.xml"
+    $NewAssocFile = "$XMLRoot\AppAssoc_Office.xml"
 } else {
-    $NewAssocFile = "Z:\Applications\_Scripts\xml\AppAssoc.xml"
+    $NewAssocFile = "$XMLRoot\AppAssoc.xml"
 }
 
 Write-Output "Writing $NewAssocFile to $MyComputer"
