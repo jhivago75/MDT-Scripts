@@ -1,7 +1,7 @@
 #########################################################################################################################
 #
 #   Author    : Jhivago
-#   FileName  :bld_vpn.ps1
+#   FileName  : bld_vpn.ps1
 #   License   : GLP v3.0. See: https://www.gnu.org/licenses/gpl-3.0.en.html
 #   Version   : 1.0
 #   Revision  : R1 - 2018.08.14
@@ -22,6 +22,7 @@
  .Description
     Creates a global L2tp VPN connection. Tested with Unifi Security Gateway Pro 4.
     The $VPNServer variable will hake either and IP address or FQDN.
+    This approach allows logging in to the VPN from the Windows Login screen.
 
     Requirements: 
         * PowerShell Version 5 or later.
@@ -64,12 +65,13 @@ Write-Output "Logging to $logFile"
 #Set Error Action to Silently Continue
 $ErrorActionPreference = "SilentlyContinue"
 
-$VPNName = "MyVPN"
-$VPNServer = "myvpnserver.mydomain.com"
-$RemoteSubnet = "10.0.0.0/24"
-$DNS = "10.0.0.2"
-$DNSSuffix = "ad.mydomain.com"
-$Psk = "MyPSK!"
+# Set the values needed to set this up
+$VPNName = "MyVPN"                          # Display name
+$VPNServer = "myvpnserver.mydomain.com"     # Remote VPN server IP/FQDN
+$RemoteSubnet = "10.0.0.0/24"               # Remote IP block we need access to
+$DNS = "10.0.0.2"                           # DNS server on the remote LAN
+$DNSSuffix = "ad.mydomain.com"              # Remote domain DNS Search Suffix
+$Psk = "MyPSK!"                             # VPN Pre-shared Key
 
 # Remove any prevoius connections
 Remove-VpnConnection -Name "$VPNname" -AllUserConnection -Force 
