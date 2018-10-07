@@ -3,11 +3,13 @@
 #   Author    : Jhivago
 #   FileName  : FileAssociations.ps1
 #   License   : GLP v3.0. See: https://www.gnu.org/licenses/gpl-3.0.en.html
-#   Version   : 1.0
+#   Version   : 2.0
 #   Revision  : R1 - 2018.10.05
-#   Created   : 2018.10.05
+#   Created   : 2018.10.07
 #
 #   Changes   : v1.0 R1 - Inital Version.
+#               V2.0 R1 - Converted hardcoded paths to enviroment variables.
+#               V2.0 R1 - Added check to see if we are on x86 or x64.
 #
 #   To do     : - Option to take parameters?
 #
@@ -66,11 +68,22 @@ $ErrorActionPreference = "SilentlyContinue"
 # Get the computer name
 $MyComputer = $Env:COMPUTERNAME
 
-# Test if Office is installed
-if (Test-Path -Path "C:\Program Files (x86)\Microsoft Office\root") {
-    $NewAssocFile = "Z:\Applications\_Scripts\xml\AppAssoc_Office.xml"
+# Set the path to the nesessary files
+$XMLFiles = "$PSScriptRoots\xml"
+
+# Set the locations we need to find
+if (($env:PROCESSOR_ARCHITECTURE -eq "AMD64") -or ($env:PROCESSOR_ARCHITECTURE -eq "X64"))
+{
+    $OfficePath = "$env:ProgramFiles (x86)\Microsoft Office\root"
 } else {
-    $NewAssocFile = "Z:\Applications\_Scripts\xml\AppAssoc.xml"
+    $OfficePath = "$env:ProgramFiles\Microsoft Office\root"
+}
+
+# Test if our apps are installed
+if (Test-Path -Path "$OfficePath") {
+    $NewAssocFile = "$XMLFiles\AppAssoc_Office.xml"
+} else {
+    $NewAssocFile = "$XMLFiles\AppAssoc.xml"
 }
 
 Write-Output "Writing $NewAssocFile to $MyComputer"

@@ -3,11 +3,13 @@
 #   Author    : Jhivago
 #   FileName  : Start_Layout.ps1
 #   License   : GLP v3.0. See: https://www.gnu.org/licenses/gpl-3.0.en.html
-#   Version   : 1.0
-#   Revision  : R1 - 2018.10.05
+#   Version   : 2.0
+#   Revision  : R1 - 2018.10.07
 #   Created   : 2018.10.05
 #
 #   Changes   : v1.0 R1 - Inital Version.
+#               V2.0 R1 - Converted hardcoded paths to enviroment variables.
+#               V2.0 R1 - Added check to see if we are on x86 or x64.
 #
 #   To do     : - Option to take parameters?
 #
@@ -60,16 +62,29 @@ $logFile = "$logPath\$($myInvocation.MyCommand).log"
 Start-Transcript $logFile
 Write-Output "Logging to $logFile"
 
-#Set Error Action to Silently Continue
+# Set Error Action to Silently Continue
 $ErrorActionPreference = "SilentlyContinue"
 
-# Test if Office is installed
-if ((Test-Path -Path "C:\Program Files (x86)\Microsoft Office\root") -and (Test-Path -Path "C:\Program Files (x86)\Intuit")) {
-    $NewLayoutFile = "Z:\Applications\_Scripts\Common\Start_Layout_Office_QB.xml"
-} elseif ((Test-Path -Path "C:\Program Files (x86)\Microsoft Office\root") -and !(Test-Path -Path "C:\Program Files (x86)\Intuit")) {
-    $NewLayoutFile = "Z:\Applications\_Scripts\Common\Start_Layout_Office.xml"
+# Set the path to the nesessary files
+$XMLFiles = "$PSScriptRoots\xml"
+
+# Set the locations we need to find
+if (($env:PROCESSOR_ARCHITECTURE -eq "AMD64") -or ($env:PROCESSOR_ARCHITECTURE -eq "X64"))
+{
+    $OfficePath = "$env:ProgramFiles (x86)\Microsoft Office\root"
+    $QBPath = "$env:ProgramFiles (x86)\Intuit"
 } else {
-    $NewLayoutFile = "Z:\Applications\_Scripts\Common\Start_Layout.xml"
+    $OfficePath = "$env:ProgramFiles\Microsoft Office\root"
+    $QBPath = "$env:ProgramFiles\Intuit"
+}
+
+# Test if our apps are installed
+if ((Test-Path -Path "$OfficePath") -and (Test-Path -Path "$QBPath\Intuit")) {
+    $NewLayoutFile = "$XMLFiles\Start_Layout_Office_QB.xml"
+} elseif ((Test-Path -Path "$OfficePath") -and !(Test-Path -Path "$QBPath")) {
+    $NewLayoutFile = "$XMLFiles\Start_Layout_Office.xml"
+} else {
+    $NewLayoutFile = "$XMLFiles\Start_Layout.xml"
 }
 
 Write-Output "Writing $NewLayoutFile to $MyComputer"
