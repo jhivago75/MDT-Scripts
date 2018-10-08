@@ -31,7 +31,7 @@
     Does not take any parameters.
 
  .Example
-    mk_vpnscpts.ps1
+    BLD_VPN.ps1
 
  .Link
     Licensed under GLP v3.0. See:
