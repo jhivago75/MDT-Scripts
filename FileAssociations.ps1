@@ -66,13 +66,13 @@ Write-Output "Logging to $logFile"
 $ErrorActionPreference = "SilentlyContinue"
 
 # Get the computer name
-$MyComputer = $Env:COMPUTERNAME
+$MyComputer = $tsenv.Value("HOSTNAME")
 
 # Set the path to the nesessary files
-$XMLFiles = "$PSScriptRoots\xml"
+$XMLFiles = "$PSScriptRoot\xml"
 
 # Set the locations we need to find
-if (($env:PROCESSOR_ARCHITECTURE -eq "AMD64") -or ($env:PROCESSOR_ARCHITECTURE -eq "X64"))
+if (($tsenv.Value("ARCHITECTURE") -eq "AMD64") -or ($tsenv.Value("ARCHITECTURE") -eq "X64"))
 {
     $OfficePath = "$env:ProgramFiles (x86)\Microsoft Office\root"
 } else {
