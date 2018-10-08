@@ -64,7 +64,7 @@ Write-Output "Logging to $logFile"
 $ErrorActionPreference = "SilentlyContinue"
 
 # Set the location of the wallpaper we want to set as the default
-$PaperPath = "%SystemRoot%\web\wallpaper\Zydeco\zydeco.jpg"
+$PaperPath = "\\server\path\to\MyCompany\wallpaper\Wallpaper.jpg"
 
 takeown /A /F %SystemRoot%\web\wallpaper\windows\img0.jpg
 
