@@ -3,13 +3,14 @@
 #   Author    : Jhivago
 #   FileName  : Default_Walpaper.ps1
 #   License   : GLP v3.0. See: https://www.gnu.org/licenses/gpl-3.0.en.html
-#   Version   : 1.0
+#   Version   : 2.0
 #   Revision  : R1 - 2018.10.05
-#   Created   : 2018.10.05
+#   Created   : 2018.10.08
 #
 #   Changes   : v1.0 R1 - Inital Version.
+#               v2.0 R1 - Made the path a parameter.
 #
-#   To do     : - Option to take parameter?
+#   To do     :
 #
 #
 #########################################################################################################################
@@ -25,11 +26,13 @@
     Requirements: 
         * PowerShell Version 5 or later.
 
- .Parameter NONE
-    There are no parameters.
+ .Parameter Path
+    MANDATORY Takes the full path to your wallpaper.
 
  .Example
-    Default_Walpaper.ps1
+    Default_Walpaper.ps1 -Path \\server\path\to\MyCompany\wallpaper\Wallpaper.jpg
+    or
+    Default_Walpaper.ps1 -Path Drive:\path\to\MyCompany\wallpaper\Wallpaper.jpg
 
  .Link
     Licensed under GLP v3.0. See:
@@ -51,6 +54,12 @@
 
 #>
 
+# Parameters
+param (
+   [Parameter(Mandatory=$true,Position=0)]
+   [String]$Path
+)
+
 # Determine where to do the logging 
 $tsenv = New-Object -COMObject Microsoft.SMS.TSEnvironment 
 $logPath = $tsenv.Value("LogPath") 
@@ -64,7 +73,7 @@ Write-Output "Logging to $logFile"
 $ErrorActionPreference = "SilentlyContinue"
 
 # Set the location of the wallpaper we want to set as the default
-$PaperPath = "\\server\path\to\MyCompany\wallpaper\Wallpaper.jpg"
+#$PaperPath = "\\server\path\to\MyCompany\wallpaper\Wallpaper.jpg"
 
 takeown /A /F %SystemRoot%\web\wallpaper\windows\img0.jpg
 
@@ -74,7 +83,7 @@ icacls %SystemRoot%\web\wallpaper\windows\img0.jpg /grant "Administrators":F
 
 icacls %SystemRoot%\web\4k\Wallpaper\Windows\*.* /grant "Administrators":F
 
-copy /y $PaperPath %SystemRoot%\web\wallpaper\windows\img0.jpg
+copy /y $Path %SystemRoot%\web\wallpaper\windows\img0.jpg
 
 del /q %SystemRoot%\web\4k\Wallpaper\Windows\*.*
 
