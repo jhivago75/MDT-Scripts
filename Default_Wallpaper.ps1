@@ -75,17 +75,17 @@ $ErrorActionPreference = "SilentlyContinue"
 # Set the location of the wallpaper we want to set as the default
 #$PaperPath = "\\server\path\to\MyCompany\wallpaper\Wallpaper.jpg"
 
-takeown /A /F %SystemRoot%\web\wallpaper\windows\img0.jpg
+takeown /A /F $env:SystemRoot\web\wallpaper\windows\img0.jpg
 
-takeown /A /F %SystemRoot%\web\4k\Wallpaper\Windows\*.*
+takeown /A /F $env:SystemRoot\web\4k\Wallpaper\Windows\*.*
 
-icacls %SystemRoot%\web\wallpaper\windows\img0.jpg /grant "Administrators":F
+icacls $env:SystemRoot\web\wallpaper\windows\img0.jpg /grant "Administrators":F
 
-icacls %SystemRoot%\web\4k\Wallpaper\Windows\*.* /grant "Administrators":F
+icacls $env:SystemRoot\web\4k\Wallpaper\Windows\*.* /grant "Administrators":F
 
-copy /y $Path %SystemRoot%\web\wallpaper\windows\img0.jpg
+copy /y $Path $env:SystemRoot\web\wallpaper\windows\img0.jpg
 
-del /q %SystemRoot%\web\4k\Wallpaper\Windows\*.*
+del /q $env:SystemRoot\web\4k\Wallpaper\Windows\*.*
 
 # Stop logging 
 Stop-Transcript
