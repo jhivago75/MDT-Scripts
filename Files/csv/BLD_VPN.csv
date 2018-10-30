@@ -1,0 +1,4 @@
+name,server,subnet,suffix,psk,action
+MyVPN,myvpn.mydomain.com,10.0.1.0/24,ad.mydomain.com,M1PSk!,new
+CompanyVPN,vpn.mydomain.com,10.0.1.0/24,ad.mydomain.com,M1PSk!,Replace
+PrivateVPN,1.1.1.1,10.0.1.0/24,ad.mydomain.com,M1PSk!,Remove
