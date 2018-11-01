@@ -75,7 +75,7 @@ $ErrorActionPreference = "SilentlyContinue"
 # Set the location of the wallpaper we want to set as the default
 $WinDir = $Env:SystemRoot
 
-$PaperPath = "$WinDir\web\wallpaper\Zydeco\zydeco.jpg"
+$PaperPath = "\\server\path\to\MyCompany\wallpaper\Wallpaper.jpg"
 
 takeown /A /F $WinDir\web\wallpaper\windows\img0.jpg
 
