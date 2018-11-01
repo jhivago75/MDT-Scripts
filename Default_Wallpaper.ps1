@@ -73,19 +73,21 @@ Write-Output "Logging to $logFile"
 $ErrorActionPreference = "SilentlyContinue"
 
 # Set the location of the wallpaper we want to set as the default
-#$PaperPath = "\\server\path\to\MyCompany\wallpaper\Wallpaper.jpg"
+$WinDir = $Env:SystemRoot
 
-takeown /A /F $env:SystemRoot\web\wallpaper\windows\img0.jpg
+$PaperPath = "$WinDir\web\wallpaper\Zydeco\zydeco.jpg"
 
-if (Test-Path -path $env:SystemRoot\web\4k\Wallpaper\Windows) { takeown /A /F $env:SystemRoot\web\4k\Wallpaper\Windows\*.* }
+takeown /A /F $WinDir\web\wallpaper\windows\img0.jpg
 
-icacls $env:SystemRoot\web\wallpaper\windows\img0.jpg /grant "Administrators":F
+if (Test-Path -path $WinDir\web\4k\Wallpaper\Windows) { takeown /A /F $WinDir\web\4k\Wallpaper\Windows\*.* }
 
-icacls $env:SystemRoot\web\4k\Wallpaper\Windows\*.* /grant "Administrators":F
+icacls $WinDir\web\wallpaper\windows\img0.jpg /grant "Administrators":F
 
-Copy-Item -Path $PaperPath -Destination $env:SystemRoot\web\wallpaper\windows\img0.jpg -Force
+icacls $WinDir\web\4k\Wallpaper\Windows\*.* /grant "Administrators":F
 
-if (Test-Path -path $env:SystemRoot\web\4k\Wallpaper\Windows) { del /q $env:SystemRoot\web\4k\Wallpaper\Windows\*.* }
+Copy-Item -Path $PaperPath -Destination $WinDir\web\wallpaper\windows\img0.jpg -Force
+
+if (Test-Path -path $WinDir\web\4k\Wallpaper\Windows) { del /q $WinDir\web\4k\Wallpaper\Windows\*.* }
 
 # Stop logging 
 Stop-Transcript
