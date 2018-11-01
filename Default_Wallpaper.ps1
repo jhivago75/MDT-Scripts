@@ -77,15 +77,15 @@ $ErrorActionPreference = "SilentlyContinue"
 
 takeown /A /F $env:SystemRoot\web\wallpaper\windows\img0.jpg
 
-takeown /A /F $env:SystemRoot\web\4k\Wallpaper\Windows\*.*
+if (Test-Path -path $env:SystemRoot\web\4k\Wallpaper\Windows) { takeown /A /F $env:SystemRoot\web\4k\Wallpaper\Windows\*.* }
 
 icacls $env:SystemRoot\web\wallpaper\windows\img0.jpg /grant "Administrators":F
 
 icacls $env:SystemRoot\web\4k\Wallpaper\Windows\*.* /grant "Administrators":F
 
-copy /y $Path $env:SystemRoot\web\wallpaper\windows\img0.jpg
+Copy-Item -Path $PaperPath -Destination $env:SystemRoot\web\wallpaper\windows\img0.jpg -Force
 
-del /q $env:SystemRoot\web\4k\Wallpaper\Windows\*.*
+if (Test-Path -path $env:SystemRoot\web\4k\Wallpaper\Windows) { del /q $env:SystemRoot\web\4k\Wallpaper\Windows\*.* }
 
 # Stop logging 
 Stop-Transcript
