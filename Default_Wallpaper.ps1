@@ -56,7 +56,7 @@
 
 # Parameters
 param (
-   [Parameter(Mandatory=$false,Position=0)]
+   [Parameter(Mandatory=$False,Position=0)]
    [String]$Path
 )
 
@@ -87,7 +87,7 @@ icacls $WindowsDir\web\4k\Wallpaper\Windows\*.* /grant "Administrators":F
 
 Copy-Item -Path $PaperPath -Destination $WindowsDir\web\wallpaper\windows\img0.jpg -Force
 
-if (Test-Path -path $WindowsDir\web\4k\Wallpaper\Windows) { del /q $WindowsDir\web\4k\Wallpaper\Windows\*.* }
+if (Test-Path -path $WindowsDir\web\4k\Wallpaper\Windows) { Remove-Item $WindowsDir\web\4k\Wallpaper\Windows\*.* -Confirm $False -Force }
 
 # Stop logging 
 Stop-Transcript
