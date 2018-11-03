@@ -57,7 +57,7 @@
 # Parameters
 param (
    [Parameter(Mandatory=$False,Position=0)]
-   [String]$Path
+   [String]$PaperPath
 )
 
 # Determine where to do the logging 
@@ -74,8 +74,8 @@ $ErrorActionPreference = "SilentlyContinue"
 
 # Set the location of the wallpaper we want to set as the default
 $WindowsDir = $Env:windir
-if ([string]::IsNullOrEmpty($Path)) {
-    $Path = "\\server\path\to\MyCompany\wallpaper\Wallpaper.jpg"
+if ([string]::IsNullOrEmpty($PaperPath)) {
+    $PaperPath = "\\server\path\to\MyCompany\wallpaper\Wallpaper.jpg"
 }
 
 takeown /A /F $WindowsDir\web\wallpaper\windows\img0.jpg
@@ -86,7 +86,7 @@ icacls $WindowsDir\web\wallpaper\windows\img0.jpg /grant "Administrators":F
 
 icacls $WindowsDir\web\4k\Wallpaper\Windows\*.* /grant "Administrators":F
 
-Copy-Item -Path $Path -Destination $WindowsDir\web\wallpaper\windows\img0.jpg -Force
+Copy-Item -Path $PaperPath -Destination $WindowsDir\web\wallpaper\windows\img0.jpg -Force
 
 if (Test-Path -path $WindowsDir\web\4k\Wallpaper\Windows) { Remove-Item $WindowsDir\web\4k\Wallpaper\Windows\*.* -Confirm $False -Force }
 
