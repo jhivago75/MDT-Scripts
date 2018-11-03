@@ -86,11 +86,11 @@ if (Test-Path "$env:ProgramFiles (x86)\Intuit") {
 
 # Set our association file
 if (($Office) -and ($QB)) {
-    $NewLayoutFile = "$XMLFiles\AppAssoc_Office_QB.xml"
+    $NewAssocFile = "$XMLFiles\AppAssoc_Office_QB.xml"
 } elseif (($Office) -and !($QB)) {
-    $NewLayoutFile = "$XMLFiles\AppAssoc_Office.xml"
+    $NewAssocFile = "$XMLFiles\AppAssoc_Office.xml"
 } else {
-    $NewLayoutFile = "$XMLFiles\AppAssoc.xml"
+    $NewAssocFile = "$XMLFiles\AppAssoc.xml"
 }
 
 Write-Output "Writing $NewAssocFile to $MyComputer"
