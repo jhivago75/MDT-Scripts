@@ -65,26 +65,30 @@ Write-Output "Logging to $logFile"
 # Set Error Action to Silently Continue
 $ErrorActionPreference = "SilentlyContinue"
 
-# Get the computer name
-$MyComputer = $tsenv.Value("HOSTNAME")
+# Get the deployment root
+$DeployRoot = $tsenv.Value("DEPLOYROOT")
 
 # Set the path to the nesessary files
-$XMLFiles = "$PSScriptRoot\xml"
+$XMLFiles = "$DeployRoot\Applications\_Scripts\Files\xml"
 
-# Set the locations we need to find
-if (($tsenv.Value("ARCHITECTURE") -eq "AMD64") -or ($tsenv.Value("ARCHITECTURE") -eq "X64"))
-{
-    $OfficePath = "$env:ProgramFiles (x86)\Microsoft Office\root"
-    $QBPath = "$env:ProgramFiles (x86)\Intuit"
-} else {
-    $OfficePath = "$env:ProgramFiles\Microsoft Office\root"
-    $QBPath = "$env:ProgramFiles\Intuit"
-}
+# Test if our apps are installed and set to $true or $false
+if (Test-Path "$env:ProgramFiles (x86)\Microsoft Office\root") {
+    $Office = $true
+} elseif (Test-Path "$env:ProgramFiles\Microsoft Office\root") {
+    $Office = $true
+} else { $Office = $false }
 
-# Test if our apps are installed
-if ((Test-Path -Path "$OfficePath") -and (Test-Path -Path "$QBPath\Intuit")) {
+if (Test-Path "$env:ProgramFiles (x86)\Intuit") {
+    $QB = $true
+} elseif (Test-Path "$env:ProgramFiles\Intuit") {
+    $QB = $true
+} else { $QB = $false }
+
+
+# Set our layout file
+if (($Office) -and ($QB)) {
     $NewLayoutFile = "$XMLFiles\Start_Layout_Office_QB.xml"
-} elseif ((Test-Path -Path "$OfficePath") -and !(Test-Path -Path "$QBPath")) {
+} elseif (($Office) -and !($QB)) {
     $NewLayoutFile = "$XMLFiles\Start_Layout_Office.xml"
 } else {
     $NewLayoutFile = "$XMLFiles\Start_Layout.xml"
@@ -94,7 +98,7 @@ Write-Output "Writing $NewLayoutFile to $MyComputer"
 
 Import-StartLayout -LayoutPath "$NewLayoutFile" -MountPath C:\
 
-Write-Output "Done."
+Write-Output "Done"
  
 # Stop logging 
 Stop-Transcript

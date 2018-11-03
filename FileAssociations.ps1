@@ -65,25 +65,32 @@ Write-Output "Logging to $logFile"
 #Set Error Action to Silently Continue
 $ErrorActionPreference = "SilentlyContinue"
 
-# Get the computer name
-$MyComputer = $tsenv.Value("HOSTNAME")
+# Get the deployment root
+$DeployRoot = $tsenv.Value("DEPLOYROOT")
 
 # Set the path to the nesessary files
-$XMLFiles = "$PSScriptRoot\xml"
+$XMLFiles = "$DeployRoot\Applications\_Scripts\Files\xml"
 
-# Set the locations we need to find
-if (($tsenv.Value("ARCHITECTURE") -eq "AMD64") -or ($tsenv.Value("ARCHITECTURE") -eq "X64"))
-{
-    $OfficePath = "$env:ProgramFiles (x86)\Microsoft Office\root"
-} else {
-    $OfficePath = "$env:ProgramFiles\Microsoft Office\root"
-}
+# Test if our apps are installed and set to $true or $false
+if (Test-Path "$env:ProgramFiles (x86)\Microsoft Office\root") {
+    $Office = $true
+} elseif (Test-Path "$env:ProgramFiles\Microsoft Office\root") {
+    $Office = $true
+} else { $Office = $false }
 
-# Test if our apps are installed
-if (Test-Path -Path "$OfficePath") {
-    $NewAssocFile = "$XMLFiles\AppAssoc_Office.xml"
+if (Test-Path "$env:ProgramFiles (x86)\Intuit") {
+    $QB = $true
+} elseif (Test-Path "$env:ProgramFiles\Intuit") {
+    $QB = $true
+} else { $QB = $false }
+
+# Set our association file
+if (($Office) -and ($QB)) {
+    $NewLayoutFile = "$XMLFiles\AppAssoc_Office_QB.xml"
+} elseif (($Office) -and !($QB)) {
+    $NewLayoutFile = "$XMLFiles\AppAssoc_Office.xml"
 } else {
-    $NewAssocFile = "$XMLFiles\AppAssoc.xml"
+    $NewLayoutFile = "$XMLFiles\AppAssoc.xml"
 }
 
 Write-Output "Writing $NewAssocFile to $MyComputer"
