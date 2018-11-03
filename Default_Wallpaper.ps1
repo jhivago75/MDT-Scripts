@@ -27,12 +27,13 @@
         * PowerShell Version 5 or later.
 
  .Parameter Path
-    MANDATORY Takes the full path to your wallpaper.
+    Optional Takes the full path to your wallpaper. Otherwise assumes the wallpaperis
+             located at $PSScriptRoot\Wallpaper\Wallpaper.jpg
 
  .Example
     Default_Walpaper.ps1 -Path \\server\path\to\MyCompany\wallpaper\Wallpaper.jpg
     or
-    Default_Walpaper.ps1 -Path Drive:\path\to\MyCompany\wallpaper\Wallpaper.jpg
+    Default_Walpaper.ps1 -Path D:\path\to\MyCompany\wallpaper\Wallpaper.jpg
 
  .Link
     Licensed under GLP v3.0. See:
@@ -75,7 +76,7 @@ $ErrorActionPreference = "SilentlyContinue"
 # Set the location of the wallpaper we want to set as the default
 $WindowsDir = $Env:windir
 if ([string]::IsNullOrEmpty($PaperPath)) {
-    $PaperPath = "\\server\path\to\MyCompany\wallpaper\Wallpaper.jpg"
+    $PaperPath = "$PSScriptRoot\Wallpaper\Wallpaper.jpg"
 }
 
 takeown /A /F $WindowsDir\web\wallpaper\windows\img0.jpg
